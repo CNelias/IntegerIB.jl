@@ -440,4 +440,6 @@ function search_optima!(m::IB, n_iter = 10000)
     m.qy_t = best.qy_t
 end
 
+export IB, search_optima!, brute_optimize!, IB_optimize!, calc_metrics, get_IB_curve, get_y                
+                
 end
