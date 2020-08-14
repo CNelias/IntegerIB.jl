@@ -4,7 +4,7 @@ A julia module to apply the **information bottleneck** for clustering when deali
 
 | **Travis**     |
 |:---------------:|
-|          |
+|[![Build Status](https://travis-ci.com/johncwok/IntegerIB.jl.svg?branch=master)](https://travis-ci.com/johncwok/IntegerIB.jl)|
 
 The information bottleneck concept can be used in the context of categorical data analysis to do **clustering**, 
 or in other words, to look for categories which have equivalent functions. <br/>
