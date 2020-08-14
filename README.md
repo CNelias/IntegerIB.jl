@@ -20,8 +20,8 @@ Using Pkg
 Pkg.clone(“https://github.com/johncwok/IntegerIB.jl.git”)
 Using IntegerIB
 ```
-## Quick overview & example:
-If all you want to do is know if your categorical data can be clustered in a more concise repreentation, do as follow. First, map your categorical time-series to an array of integer 'x'. For example if your data is ["a", "b", "c", "a", "c"], you can map it to [1, 2, 3, 1, 3]. Then instantiate a model and optimize it :
+## Quick overview:
+To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of integer 'x'. For example, if your data is ["a", "b", "c", "a", "c"], you can map it to [1, 2, 3, 1, 3]. Then instantiate a model and optimize it :
 ```Julia
 model = IB(x) #you call IB(x, beta). beta is a real number that controls the amount of compression.
 IB_optimize!(model) 
@@ -32,7 +32,7 @@ print_results(model)
 ```
 Rows are clusters and columns correspond to the input categories. The ouput is the probability p(t|x) of a category belonging to a given cluster, but since most of the probabilities are very low, everything above o.1 is set to 1 and the rest to 0 for ease of readability (see further usage for more details).
 #### example :
-Here is a real-life example with data of chord functions in chorales from bach.
+Here is a concrete example with the bach chorales dataset. The input categories are the 7 chord function from classical harmony.
 ```Julia
 bach = CSV.read("..\\data\\bach_histogram")
 pxy = Matrix(bach)./sum(Matrix(bach))
@@ -54,4 +54,4 @@ Special thanks to Nori jacoby from whom I learned a lot on the subject. The IB p
 The present implementation is adapted from DJ Strouse's paper https://arxiv.org/abs/1604.00268 and his python implementation.
 
 ## To-do
-Finish writing readme, add tests
+Finish writing 'further usage' section.
