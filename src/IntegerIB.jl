@@ -1,6 +1,7 @@
 module IntegerIB
 
 using Random
+using DataFrames
 import Base.merge!
 
 """
@@ -174,6 +175,7 @@ To use the deterministic IB algorithm, set algorithm to "DIB" like IB(x, "DIB").
 mutable struct IB
     algorithm::String
     β::Real
+    x
     px
     py
     pxy
@@ -181,10 +183,10 @@ mutable struct IB
     qt_x
     qt
     qy_t
-    IB(x, y, β = 100, algorithm = "IB") = new(algorithm, β, get_px(x,y), get_py(x,y), get_pxy(x,y), get_py_x(x,y), init_values(x, y, algorithm)...)
-    IB(x::Array{Float64,1}, β = 100, algorithm = "IB") = new(algorithm, β, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), init_values(x,  get_y(x), algorithm)...)
-    IB(x::Array{Int64,1}, β = 100, algorithm = "IB") = new(algorithm, β, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), init_values(x,  get_y(x), algorithm)...)
-    IB(pxy::Array{Float64,2}, β = 100, algorithm = "IB") = new(algorithm, β, get_px(pxy), get_py(pxy), pxy, get_py_x(pxy), init_values(pxy, algorithm)...)
+    IB(x, y, β = 100, algorithm = "IB") = new(algorithm, β, x, get_px(x,y), get_py(x,y), get_pxy(x,y), get_py_x(x,y), init_values(x, y, algorithm)...)
+    IB(x::Array{Float64,1}, β = 100, algorithm = "IB") = new(algorithm, β, x, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), init_values(x,  get_y(x), algorithm)...)
+    IB(x::Array{Int64,1}, β = 100, algorithm = "IB") = new(algorithm, β, x, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), init_values(x,  get_y(x), algorithm)...)
+    IB(pxy::Array{Float64,2}, β = 100, algorithm = "IB") = new(algorithm, β, nothing, get_px(pxy), get_py(pxy), pxy, get_py_x(pxy), init_values(pxy, algorithm)...)
 end
 
 """
@@ -328,9 +330,9 @@ function IB_optimize!(model::IB; merge_thres = 5*10^-2, abs_thres = 10^-10, rel_
         L = L_current
         total_steps += 1
         if total_steps == n_conv && report
-            print("Convergence not reached after $n_conv iterations, stopping optimization.")
+            println("Convergence not reached after $n_conv iterations, stopping optimization.")
         elseif consec_conv == ct_thres && report
-            print("Convergence reached after $total_steps iterations, stopping optimization")
+            println("Convergence reached after $total_steps iterations, stopping optimization")
         end
     end
 end
@@ -420,9 +422,16 @@ function get_IB_curve(m::IB, start = 0.1, stop = 400, step = 0.05; glob = false)
     return ixt, iyt
 end
 
+"""
+    search_optima!(m::IB, n_iter = 10000)
+
+The original IB algorithm can converge to a local optima. To find the global optima,
+search_optima! performs 'n_iter' optimization of input model 'm', randomly re-initializing it at every iteration.
+The best optimization is kept and 'm' is modified in-place.
+"""
 function search_optima!(m::IB, n_iter = 10000)
     if m.algorithm == "DIB"
-        println("DIB algorithm is alreadygiving optima.")
+        println("DIB algorithm is already giving optima.")
         return
     end
     best = deepcopy(m)
@@ -440,6 +449,46 @@ function search_optima!(m::IB, n_iter = 10000)
     m.qy_t = best.qy_t
 end
 
-export IB, search_optima!, brute_optimize!, IB_optimize!, calc_metrics, get_IB_curve, get_y                
-                
+"""
+    Helper function that puts all similar clusters next to each other for ease of readability.
+"""
+function group_equivalent!(df)
+  for i = 1:size(df,2)-1
+    for j = i+1:size(df,2)
+      if df[!,i] == df[!,j]
+        idxs = collect(1:size(df,2))
+        idxs[j], idxs[i+1] = idxs[i+1], idxs[j]
+        permutecols!(df, idxs)
+      end
+    end
+  end
+end
+
+"""
+    print_results(m::IB, disp_thres = 0.1)
+
+Displays the clustering of data for an optimized input model 'm'.
+
+Since the IB algorithm is not deterministic, some probabilities in the clustering matrix 'm.qt_x' are non-zero.
+For ease of readability, every probability under 'disp_thres' is displayed as 0, everything else as 1.
+The result is a 2D matrix where the rows represent the clusters and the column the initial categories.
+The 1 tell to which cluster which category belongs.
+If several 1 are present for a single category, it means that the optimization wasn't able to assign
+a single cluster to this category for the chosen β value. You might try a diffent β, or use the DIB variant of the algorithm.
+"""
+function print_results(m::IB, disp_thres = 0.1)
+    if ~isnothing(m.x)
+        df = DataFrame(model.qt_x .> disp_thres, Symbol.(sort(unique(m.x))))
+        group_equivalent!(df)
+        display(df)
+    else
+        @warn "Initial data is probability distribution, categories will be displayed as x1, x2 ..., xn."
+        df = DataFrame(model.qt_x .> disp_thres)
+        group_equivalent!(df)
+        display(df)
+    end
+end
+
+export IB, search_optima!, brute_optimize!, IB_optimize!, calc_metrics, get_IB_curve, get_y, print_results
+
 end
