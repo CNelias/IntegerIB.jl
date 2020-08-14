@@ -24,8 +24,8 @@ The amount of **compression** as well as definition of **relevant context** can 
 ## Usage :
 
 ## Acknowledgments :
-Special thanks to Nori jacoby from whom I learned a lot on the subject.  <br/>
-The present implementation is an adaptation of DJ Strouse's paper https://arxiv.org/abs/1604.00268 and his python implementation.
+Special thanks to Nori jacoby from whom I learned a lot on the subject. The code was tested with his data and reproduces his results. <br/>
+The present implementation is adapted from DJ Strouse's paper https://arxiv.org/abs/1604.00268 and his python implementation.
 
 ## To-do
 Finish writing readme, add tests
