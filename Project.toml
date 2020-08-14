@@ -1,0 +1,4 @@
+name = "InformationBottleneck"
+uuid = "6503ae40-fab4-4b0f-9ca5-b3ead672bc37"
+authors = ["Corentin Nelias <cwokpoubelle@laposte.net>"]
+version = "0.1.0"
