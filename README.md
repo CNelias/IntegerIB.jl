@@ -56,7 +56,16 @@ There are two undesirable situations :
   - if `β` is too small, maximal compression is achieved and all information is lost. 
   - if `β` is too high, there is effectively no compression. With "DIB" algorithm, this can even happen even for `β` > ~5. **In the case of the "IB" algorithm this doesn't happen**, however for `β` values > ~1000, the algorithm doesnt optimize anything because all metrics are effectively 0. In practice, when using the "IB" algorithm, a high `β` value (~200) is a good starting point.<br/>
 
-- The definition of **context** is essential to define what the meaningfull information to preserve is. 
+- The definition of **context** is essential to specify what the meaningfull information to preserve is. The default behavior is to care about predictions, context is defined  as the next element. For example, if we have a time-series ```x = ["a","b","c","a","b"]```, the context vector y is ```y = ["b","c","a","b"]```. We try to compress `x` in a representation that share as much informations with `y` as possible. Other definition of the context are possible : one can take the next element and the previous one. To do that that you would call :
+```Julia
+data = CSV.read("..\\data\\coltrane")
+context = get_y(data, "an") #"an" stands for adjacent neighbors.
+model = IB(data, context)
+IB_optimize!(model)
+```
+#### Other functionalities
+
+
 
 
 
