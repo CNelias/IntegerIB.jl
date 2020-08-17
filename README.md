@@ -30,7 +30,7 @@ Then, to see the results :
 ```Julia
 print_results(model)
 ```
-Rows are clusters and columns correspond to the input categories. The result is the probability *p(t|x)* of a category belonging to a given cluster. Since most of the probabilities are very low, ```print_results``` **sets every *p(t|x)* > 0.1 to 1, and to 0 otherwise** for ease of readability (see further usage for more options).
+Rows are clusters and columns correspond to the input categories. The result is the probability *p(t|x)* of a category belonging to a given cluster. Since most of the probabilities are very low, ```print_results``` **sets every *p(t|x)* > 0.1 to 1, and *p(t|x)* < 0.1 to 0 otherwise** for ease of readability (see further usage for more options).
 #### example :
 Here is a concrete example with the bach chorales dataset. The input categories are the 7 chord function from classical harmony.
 ```Julia
