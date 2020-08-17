@@ -59,11 +59,32 @@ There are two undesirable situations :
 - The definition of **context** is essential to specify what the meaningfull information to preserve is. The default behavior is to care about predictions, context is defined  as the next element. For example, if we have a time-series ```x = ["a","b","c","a","b"]```, the context vector y is ```y = ["b","c","a","b"]```. We try to compress `x` in a representation that share as much informations with `y` as possible. Other definition of the context are possible : one can take the next element and the previous one. To do that that you would call :
 ```Julia
 data = CSV.read("..\\data\\coltrane")
-context = get_y(data, "an") #"an" stands for adjacent neighbors.
-model = IB(data, context)
+context = get_y(data, "an") # "an" stands for adjacent neighbors.
+model = IB(data, context, 500) # giving the context as input during instantiation.
 IB_optimize!(model)
 ```
 #### Other functionalities
+To get the value of the different **metrics** (*H(T), I(X;T), I(Y;T)* and *L*) use the `calc_metrics(model::IB)` function. <br/>
+
+Since the algorithm is not 100% guaranteed to converge to a **global maxima**, you can use the ```search_optima!(model::IB, n_iter = 10000)``` to initialize and optimize your model `n_iter` times and select the optimization with the lowest `L` value. This is an in-place modification so you do not need to call `IB_optimize!(model::IB)` after calling `search_optima!`.<br/>
+
+If you want to get the raw probabilities `p(t|x)` after optimization (`print_results` filters it for ease of readability), you can access them with :
+```Julia
+pt_x = model.qt_x
+```
+Similarly, you can also get p(y|t) or p(t) with `model.qy_t` and `model.qt`.<br/>
+Finally, the function `get_IB_curve(m::IB, start = 0.1, stop = 400, step = 0.05; glob = false)` lets you plot the "optimal" IB curve. Here is an example with the bach chorale dataset:
+```Julia
+using Plots
+bach = CSV.read("..\\data\\bach_histogram")
+pxy = Matrix(bach)./sum(Matrix(bach))
+model = IB(pxy, 1000)
+x, y = get_IB_curve(model)
+a = plot(x, y, color = "black", linewidth = 2, label = "Optimal IB curve", title = "Optimal IB curve \n Bach's chorale dataset")
+scatter!(a, x, y, color = "black", markersize = 1.7, xlabel = "I(X;T) \n", ylabel = "- \n I(Y;T)", label = "", legend = :topleft)
+```
+
+<img src=https://user-images.githubusercontent.com/34754896/90395817-72438d00-e095-11ea-8872-3030db40539c.PNG width = "600">
 
 
 
@@ -74,4 +95,4 @@ Special thanks to Nori jacoby from whom I learned a lot on the subject. The IB p
 The present implementation is adapted from DJ Strouse's paper https://arxiv.org/abs/1604.00268 and his python implementation.
 
 ## To-do
-Finish writing 'further usage' section.
+Implement simulated annealing to get global maxima in a more consistent fashion.
