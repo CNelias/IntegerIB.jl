@@ -68,12 +68,13 @@ To get the value of the different **metrics** (*H(T), I(X;T), I(Y;T)* and *L*) u
 
 Since the algorithm is not 100% guaranteed to converge to a **global maxima**, you can use the ```search_optima!(model::IB, n_iter = 10000)``` to initialize and optimize your model `n_iter` times and select the optimization with the lowest `L` value. This is an in-place modification so you do not need to call `IB_optimize!(model::IB)` after calling `search_optima!`.<br/>
 
-If you want to get the raw probabilities `p(t|x)` after optimization (`print_results` filters it for ease of readability), you can access them with :
+If you want to get the **raw probabilities** `p(t|x)` after optimization (`print_results` filters it for ease of readability), you can access them with :
 ```Julia
 pt_x = model.qt_x
 ```
 Similarly, you can also get p(y|t) or p(t) with `model.qy_t` and `model.qt`.<br/>
-Finally, the function `get_IB_curve(m::IB, start = 0.1, stop = 400, step = 0.05; glob = false)` lets you plot the "optimal" IB curve. Here is an example with the bach chorale dataset:
+
+Finally, the function `get_IB_curve(m::IB, start = 0.1, stop = 400, step = 0.05; glob = false)` lets you plot the **"optimal" IB curve**. Here is an example with the bach chorale dataset:
 ```Julia
 using Plots
 bach = CSV.read("..\\data\\bach_histogram")
