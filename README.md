@@ -14,7 +14,7 @@ given a specific **context**, how much of what is coming next can we predict ? <
 The goal of this algorithm is to cluster categorical data while preserving prediction power. To learn more about the information bottleneck 
 you can look at *https://arxiv.org/abs/1604.00268* or *https://doi.org/10.1080/09298215.2015.1036888*
 
-#### Installation & import :
+#### Installation & import:
 ```Julia
 Using Pkg
 Pkg.clone(“https://github.com/johncwok/IntegerIB.jl.git”)
@@ -23,20 +23,20 @@ Using IntegerIB
 ## Quick overview:
 To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of integer 'x'. For example, if your data is ["a", "b", "c", "a", "c"], you can map it to [1, 2, 3, 1, 3]. Then instantiate a model and optimize it :
 ```Julia
-model = IB(x) #you call IB(x, beta). beta is a real number that controls the amount of compression.
+model = IB(x) #you can call IB(x, beta). beta is a real number that controls the amount of compression.
 IB_optimize!(model) 
 ```
 Then, to see the results :
 ```Julia
 print_results(model)
 ```
-Rows are clusters and columns correspond to the input categories. The ouput is the probability p(t|x) of a category belonging to a given cluster, but since most of the probabilities are very low, everything above o.1 is set to 1 and the rest to 0 for ease of readability (see further usage for more details).
+Rows are clusters and columns correspond to the input categories. The result is the probability *p(t|x)* of a category belonging to a given cluster. Since most of the probabilities are very low, ```print_results``` **sets every *p(t|x)* > 0.1 to 1, and to 0 otherwise** for ease of readability (see further usage for more options).
 #### example :
 Here is a concrete example with the bach chorales dataset. The input categories are the 7 chord function from classical harmony.
 ```Julia
 bach = CSV.read("..\\data\\bach_histogram")
 pxy = Matrix(bach)./sum(Matrix(bach))
-model = IB(pxy, 1000) #here we directly provide a probability distribution and not a time-series.
+model = IB(pxy, 1000) #You can also instantiate 'model' with a probability distribution instead of a time-series.
 IB_optimize!(model)
 print_results(model)
 ```
