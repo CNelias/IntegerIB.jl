@@ -94,4 +94,6 @@ Special thanks to Nori jacoby from whom I learned a lot on the subject. The IB p
 The present implementation is adapted from DJ Strouse's paper https://arxiv.org/abs/1604.00268 and his python implementation.
 
 ## To-do
-Implement simulated annealing to get global maxima in a more consistent fashion.
+* automatize mappings if user doesn't provide any
+* improve display of results
+* Implement simulated annealing to get global maxima in a more consistent fashion.
