@@ -14,12 +14,6 @@ given a specific **context**, how much of what is coming next can we predict ? <
 The goal of this algorithm is to cluster categorical data while preserving prediction power. To learn more about the information bottleneck 
 you can look at *https://arxiv.org/abs/1604.00268* or *https://doi.org/10.1080/09298215.2015.1036888*
 
-#### Installation & import:
-```Julia
-Using Pkg
-Pkg.clone(“https://github.com/johncwok/IntegerIB.jl.git”)
-Using IntegerIB
-```
 ## Quick overview
 To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of integer 'x'. For example, if your data is ["a", "b", "c", "a", "c"], you can map it to [1, 2, 3, 1, 3]. Then instantiate a model and optimize it :
 ```Julia
@@ -87,8 +81,12 @@ scatter!(a, x, y, color = "black", markersize = 1.7, xlabel = "I(X;T) \n", ylabe
 
 <img src=https://user-images.githubusercontent.com/34754896/90395817-72438d00-e095-11ea-8872-3030db40539c.PNG width = "600">
 
-
-
+#### Installation & import:
+```Julia
+Using Pkg
+Pkg.clone(“https://github.com/johncwok/IntegerIB.jl.git”)
+Using IntegerIB
+```
 
 
 ## Acknowledgments
