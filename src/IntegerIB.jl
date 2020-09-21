@@ -167,6 +167,28 @@ function init_values(pxy, algorithm = "IB")
 end
 
 """
+    mapping(input)
+
+Maps an input array of any type (string, float, any...) to an array of Int usable by the algorithm.
+The structure of the array is preserved as the mapping is one-to-one.
+"""
+function mapping(input)
+    categories = unique(input)
+    mapped_series = Int64[]
+    for value in input
+        for (idx, ctg) in enumerate(categories)
+            if ctg == value
+                push!(mapped_series, idx)
+            end
+        end
+    end
+    return mapped_series
+end
+
+test = ["a","b","c","a","c","b"]
+print(mapping(test))
+
+"""
 Interface for IB clustering computation.
 Input data 'x' must be 1D. β controls the amount of clustering : the smaller the beta, the greater the clustering (and information loss).
 Can be initalized directly with the data via IB(x), or if you already have the histograms/probability of co-occurences of 'x' and 'y' via IB(pxy).
