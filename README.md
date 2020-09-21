@@ -15,7 +15,7 @@ The goal of this algorithm is to cluster categorical data while preserving predi
 you can look at *https://arxiv.org/abs/1604.00268* or *https://doi.org/10.1080/09298215.2015.1036888*
 
 ## Quick overview
-To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of integer 'x'. For example, if your data is ["a", "b", "c", "a", "c"], you can map it to [1, 2, 3, 1, 3]. Then instantiate a model and optimize it :
+To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of **integer** 'x'. This can be done with the ```mapping``` function. For example, if your data is ["a", "b", "c", "a", "c"], ```mapping(x)``` returns ```[1, 2, 3, 1, 3]```. Then instantiate a model and optimize it :
 ```Julia
 model = IB(x) #you can call IB(x, beta). beta is a real number that controls the amount of compression.
 IB_optimize!(model) 
