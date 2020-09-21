@@ -26,7 +26,7 @@ print_results(model)
 ```
 Rows are clusters and columns correspond to the input categories. The result is the probability `p(t|x)` of a category belonging to a given cluster. Since most of the probabilities are very low, ```print_results``` **sets every `p(t|x)` > 0.1 to 1, 0 otherwise** for ease of readability (see further usage for more options).
 #### example:
-Here is a concrete example with the bach chorales dataset. The input categories are the 7 chord function from classical harmony.
+Here is a concrete example with a dataset chorales from Bach. The input categories are the 7 types of diatonic chords described in classical music theory.
 ```Julia
 bach = CSV.read("..\\data\\bach_histogram")
 pxy = Matrix(bach)./sum(Matrix(bach))
@@ -34,7 +34,7 @@ model = IB(pxy, 1000) #You can also instantiate 'model' with a probability distr
 IB_optimize!(model)
 print_results(model)
 ```
-The output is in perfect accordance with music theory. It tells us that we can group category 1, 3 and 6 together : this corresponds to the ```tonic``` function in classical harmony. Category 2 and 4 have been clustered together, this is what harmony calls ```subdominant```. Finall category 5 and 7 are joined : this is the ```dominant``` function.
+The output is in perfect accordance with western music theory. It tells us that we can group category 1, 3 and 6 together : this corresponds to the ```tonic``` function in classical harmony. Category 2 and 4 have been clustered together, this is what harmony calls ```subdominant```. Finall category 5 and 7 are joined : this is the ```dominant``` function.
 
 <img src=https://user-images.githubusercontent.com/34754896/90241511-7c625300-de2b-11ea-800d-3cee1da9fdf5.PNG width = "400">
 
