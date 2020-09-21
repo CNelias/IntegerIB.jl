@@ -15,8 +15,10 @@ The goal of this algorithm is to cluster categorical data while preserving predi
 you can look at *https://arxiv.org/abs/1604.00268* or *https://doi.org/10.1080/09298215.2015.1036888*
 
 ## Quick overview
-To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of **integer** 'x'. This can be done with the ```mapping``` function. For example, if your data is ```data = ["a", "b", "c", "a", "c"]```, ```mapping(data)``` returns ```[1, 2, 3, 1, 3]```. Then instantiate a model and optimize it :
+To do a simple IB clustering of categorical data do as follow. First, map your categorical time-series to an array of **integer** 'x'. This can be done with the ```mapping``` function. For example, if your data is ```data = ["a", "b", "c", "a", "c"]```, ```mapping(data)``` returns ```[1, 2, 3, 1, 3]```. Then instantiate a model and optimize it:
 ```Julia
+data = readdlm("/path/to/data/")
+x = mapping(data)
 model = IB(x) #you can call IB(x, beta). beta is a real number that controls the amount of compression.
 IB_optimize!(model) 
 ```
@@ -94,6 +96,5 @@ Special thanks to Nori jacoby from whom I learned a lot on the subject. The IB p
 The present implementation is adapted from DJ Strouse's paper https://arxiv.org/abs/1604.00268 and his python implementation.
 
 ## To-do
-* automatize mappings if user doesn't provide any
 * improve display of results
 * Implement simulated annealing to get global maxima in a more consistent fashion.
