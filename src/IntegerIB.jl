@@ -512,5 +512,3 @@ end
 export IB, search_optima!, brute_optimize!, IB_optimize!, calc_metrics, get_IB_curve, get_y, print_results, mapping
 
 end
-
-end
