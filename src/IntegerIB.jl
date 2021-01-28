@@ -497,12 +497,12 @@ a single cluster to this category for the chosen β value. You might try a diffe
 """
 function print_results(m::IB, disp_thres = 0.1)
     if ~isnothing(m.x)
-        df = DataFrame(model.qt_x .> disp_thres, Symbol.(sort(unique(m.x))))
+        df = DataFrame(m.qt_x .> disp_thres, Symbol.(sort(unique(m.x))))
         group_equivalent!(df)
         display(df)
     else
         @warn "Initial data is probability distribution, categories will be displayed as x1, x2 ..., xn."
-        df = DataFrame(model.qt_x .> disp_thres)
+        df = DataFrame(m.qt_x .> disp_thres)
         group_equivalent!(df)
         display(df)
     end
