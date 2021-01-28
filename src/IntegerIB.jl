@@ -510,7 +510,28 @@ function print_results(m::IB, disp_thres = 0.1)
         display(df)
     end
 end
+                
+"""
+    mapping(x)
 
-export IB, search_optima!, brute_optimize!, IB_optimize!, calc_metrics, get_IB_curve, get_y, print_results
+maps a series of 'any' to a series of integers.
+"""
+function mapping(x)
+    u = unique(x)
+    mapped_x = zeros(length(x))
+    for (idxi, i) in enumerate(x)
+        for (idxj, j) in enumerate(u)
+            if i == j
+                mapped_x[idxi] = idxj
+            end
+        end
+    end
+    return mapped_x
+end
+
+
+export IB, search_optima!, brute_optimize!, IB_optimize!, calc_metrics, get_IB_curve, get_y, print_results, mapping
+
+end
 
 end
