@@ -184,10 +184,7 @@ function mapping(input)
     end
     return mapped_series
 end
-
-test = ["a","b","c","a","c","b"]
-print(mapping(test))
-
+                
 """
 Interface for IB clustering computation.
 Input data 'x' must be 1D. β controls the amount of clustering : the smaller the beta, the greater the clustering (and information loss).
@@ -509,24 +506,6 @@ function print_results(m::IB, disp_thres = 0.1)
         group_equivalent!(df)
         display(df)
     end
-end
-                
-"""
-    mapping(x)
-
-maps a series of 'any' to a series of integers.
-"""
-function mapping(x)
-    u = unique(x)
-    mapped_x = zeros(length(x))
-    for (idxi, i) in enumerate(x)
-        for (idxj, j) in enumerate(u)
-            if i == j
-                mapped_x[idxi] = idxj
-            end
-        end
-    end
-    return mapped_x
 end
 
 
