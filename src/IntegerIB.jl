@@ -513,7 +513,7 @@ a single cluster to this category for the chosen β value. You might try a diffe
 """
 function print_results(m::IB, disp_thres = 0.1)
     if ~isnothing(m.x)
-        df = isnothing(m.colDict) ? DataFrame(m.qt_x .> disp_thres, Symbol.(sort(unique(m.x)))) : DataFrame(m.qt_x .> disp_thres, [Symbol.(m.colDict[i]) for i in unique(m.x)])
+        df = isnothing(m.colDict) ? DataFrame(m.qt_x .> disp_thres, Symbol.(sort(unique(m.x)))) : DataFrame(m.qt_x .> disp_thres, [Symbol.(m.colDict[i]) for i in sort(unique(m.x))])
         group_equivalent!(df)
         display(df)
     else
