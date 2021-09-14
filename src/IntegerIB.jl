@@ -208,7 +208,7 @@ mutable struct IB
     IB(x::Array{Float64,1}, β = 100, algorithm = "IB") = new(algorithm, β, x, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), nothing, init_values(x,  get_y(x), algorithm)...)
     IB(x::Array{Any,1}, β = 100, algorithm = "IB") = new(algorithm, β, x, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), nothing, init_values(x,  get_y(x), algorithm)...)
     IB(x::Array{Int64,1}, β = 100, algorithm = "IB") = new(algorithm, β, x, get_px(x, get_y(x)), get_py(x, get_y(x)), get_pxy(x, get_y(x)), get_py_x(x, get_y(x)), nothing, init_values(x,  get_y(x), algorithm)...)
-    IB(pxy::Array{Float64,2}, β = 100, algorithm = "IB") = new(algorithm, β, get_px(pxy), get_py(pxy), pxy, get_py_x(pxy), nothing, init_values(pxy, algorithm)...)
+    IB(pxy::Array{Float64,2}, β = 100, algorithm = "IB") = new(algorithm, nothing, β, get_px(pxy), get_py(pxy), pxy, get_py_x(pxy), nothing, init_values(pxy, algorithm)...)
     IB(x::Array{String,1}, β = 100, algorithm = "IB") = new(algorithm, β, mapped_init_values(x, algorithm)...)
 end
 
