@@ -15,4 +15,3 @@ test = ["Test"]
 
 [compat]
 julia = "^1.0"
-DataFrames = "^0.19"
