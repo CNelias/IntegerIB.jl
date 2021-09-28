@@ -212,6 +212,7 @@ mutable struct IB
     IB(x::Array{String,1}, β = 100, algorithm = "IB") = new(algorithm, β, mapped_init_values(x, algorithm)...)
 end
 
+
 """
     Returns all initialization values for the IB struct in cases where input is not a real valued array.
 """
@@ -489,15 +490,16 @@ end
     Helper function that puts all similar clusters next to each other for ease of readability.
 """
 function group_equivalent!(df)
-  for i = 1:size(df,2)-1
-    for j = i+1:size(df,2)
-      if df[!,i] == df[!,j]
-        idxs = collect(1:size(df,2))
-        idxs[j], idxs[i+1] = idxs[i+1], idxs[j]
-        permutecols!(df, idxs)
-      end
+    for i = 1:size(df,2)-1
+        for j = i+1:size(df,2)
+            if df[!,i] == df[!,j]
+                idxs = collect(1:size(df,2))
+                idxs[j], idxs[i+1] = idxs[i+1], idxs[j]
+                select!(df, idxs)
+                break
+            end
+        end
     end
-  end
 end
 
 """
@@ -516,12 +518,12 @@ function print_results(m::IB, disp_thres = 0.1)
     if ~isnothing(m.x)
         df = isnothing(m.colDict) ? DataFrame(m.qt_x .> disp_thres, Symbol.(sort(unique(m.x)))) : DataFrame(m.qt_x .> disp_thres, [Symbol.(m.colDict[i]) for i in sort(unique(m.x))])
         group_equivalent!(df)
-        display(df)
+        display(convert.(Int,df))
     else
         @warn "Initial data is probability distribution, categories will be displayed as x1, x2 ..., xn."
         df = DataFrame(m.qt_x .> disp_thres)
         group_equivalent!(df)
-        display(df)
+        display(convert.(Int,df))
     end
 end
 
