@@ -1,7 +1,7 @@
 name = "IntegerIB"
 uuid = "6503ae40-fab4-4b0f-9ca5-b3ead672bc37"
 authors = ["Corentin Nelias <cwokpoubelle@laposte.net>"]
-version = "0.1.1"
+version = "0.1.11"
 
 [deps]
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
