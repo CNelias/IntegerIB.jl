@@ -6,6 +6,10 @@ environment:
 platform:
   - x86 # 32-bit
   - x64 # 64-bit
+  
+build_cloud: NLD-TP01
+image: Windows
+
 
 # # Uncomment the following lines to allow failures on nightly julia
 # # (tests will run but not make your overall status red)
