@@ -12,3 +12,9 @@ h, ixt, iyt, L = calc_metrics(model)
 @test round(ixt, digits = 2) == 2.06
 @test round(iyt, digits = 2) == 0.78
 @test round(L, digits = 2) == 1.32
+#toy time-series presenting one predictable pattern "b" -> "a"
+toy_ts = ["a", "b", "a", "b", "a", "c", "d", "b", "a", "a", "d", "b", "a", "b", "a", "d", "c", "d", "b", "a", "d", "a", "c", "b", "a", "a", "b", "a", "c", "b", "a"]
+model = IB(toy_ts, 500)
+IB_optimize!(model)
+@test (size(model.qt_x, 1) == 2 || size(model.qt_x, 1) == 3) #we expect the algorithm to cluster at least 2 labels together.
+
