@@ -82,13 +82,18 @@ scatter!(a, x, y, color = "black", markersize = 1.7, xlabel = "I(X;T) \n", ylabe
 
 <img src=https://user-images.githubusercontent.com/34754896/90395817-72438d00-e095-11ea-8872-3030db40539c.PNG width = "600">
 
-### Installation and import 
-```Julia
-# installing the module
-Using Pkg
-Pkg.clone(“https://github.com/johncwok/SpectralEnvelope.jl.git”)
-# importing the module
-Using SpectralEnvelope
+### Citing
+If you used this module in a scientific publication, please consider citing the package it came from:
+```Bibtex
+@article{nelias2021categoricaltimeseries,
+  title={CategoricalTimeSeries. jl: A toolbox for categorical time-series analysis},
+  author={Nelias, Corentin},
+  journal={Journal of Open Source Software},
+  volume={6},
+  number={67},
+  pages={3733},
+  year={2021}
+}
 ```
 
 #### Installation & import:
@@ -97,7 +102,6 @@ Using Pkg
 Pkg.clone(“https://github.com/johncwok/IntegerIB.jl.git”)
 Using IntegerIB
 ```
-
 
 ## Acknowledgments
 Special thanks to Nori jacoby from whom I learned a lot on the subject. The IB part of this code was tested with his data and reproduces his results. <br/>
