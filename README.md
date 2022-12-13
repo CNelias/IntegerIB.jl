@@ -1,6 +1,6 @@
 # IntegerIB.jl
 
-A julia module to apply the **information bottleneck** for clustering when dealing with **categorical data**. 
+A julia module to apply the **information bottleneck** for clustering when dealing with **categorical data**. It is now part of the package [CategoricalTimeSeries.jl](https://github.com/johncwok/CategoricalTimeSeries.jl)
 
 | **Appveyor**  |
 |:---------------:|
@@ -81,6 +81,15 @@ scatter!(a, x, y, color = "black", markersize = 1.7, xlabel = "I(X;T) \n", ylabe
 ```
 
 <img src=https://user-images.githubusercontent.com/34754896/90395817-72438d00-e095-11ea-8872-3030db40539c.PNG width = "600">
+
+### Installation and import 
+```Julia
+# installing the module
+Using Pkg
+Pkg.clone(“https://github.com/johncwok/SpectralEnvelope.jl.git”)
+# importing the module
+Using SpectralEnvelope
+```
 
 #### Installation & import:
 ```Julia
